@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - AI Resume Checker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <h1>AI Resume Checker</h1>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Upload</a>
+            <a href="{{ url_for('history') }}">History</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2>Analysis Dashboard</h2>
+        <p class="subtitle">File: {{ record['filename'] }} &middot; {{ record['created_at'] }}</p>
+
+        <div class="score-card">
+            <div class="score-circle">{{ record['score'] }}</div>
+            <p>Overall Resume Score (out of 100)</p>
+            <p class="keyword-match">Keyword Match: {{ record['keyword_match'] }}%</p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>Strengths</h3>
+                <ul>
+                    {% for item in record['strengths'].split(' | ') %}
+                        {% if item %}<li>{{ item }}</li>{% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Weaknesses</h3>
+                <ul>
+                    {% for item in record['weaknesses'].split(' | ') %}
+                        {% if item %}<li>{{ item }}</li>{% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Missing Keywords</h3>
+                <ul>
+                    {% for item in record['missing_skills'].split(' | ') %}
+                        {% if item %}<li>{{ item }}</li>{% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Suggestions</h3>
+                <ul>
+                    {% for item in record['suggestions'].split(' | ') %}
+                        {% if item %}<li>{{ item }}</li>{% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Validation Results</h3>
+            <p>{{ record['validation_summary'] }}</p>
+        </div>
+
+        <a href="{{ url_for('report', record_id=record['id']) }}" class="btn-primary">Download Report</a>
+    </main>
+</body>
+</html>

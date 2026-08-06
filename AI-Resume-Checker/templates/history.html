@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History - AI Resume Checker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <h1>AI Resume Checker</h1>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Upload</a>
+            <a href="{{ url_for('history') }}">History</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2>Analysis History</h2>
+
+        {% if records %}
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>File</th>
+                    <th>Score</th>
+                    <th>Keyword Match</th>
+                    <th>Date</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record['filename'] }}</td>
+                    <td>{{ record['score'] }}</td>
+                    <td>{{ record['keyword_match'] }}%</td>
+                    <td>{{ record['created_at'] }}</td>
+                    <td><a href="{{ url_for('dashboard', record_id=record['id']) }}">View</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No resumes analyzed yet. <a href="{{ url_for('index') }}">Upload one now</a>.</p>
+        {% endif %}
+    </main>
+</body>
+</html>

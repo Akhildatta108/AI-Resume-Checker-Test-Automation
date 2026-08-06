@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Resume Checker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <h1>AI Resume Checker</h1>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Upload</a>
+            <a href="{{ url_for('history') }}">History</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2>Upload Your Resume</h2>
+        <p class="subtitle">Get an instant AI-powered score, validation check, and improvement tips.</p>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-message">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" class="upload-form" id="uploadForm">
+            <label for="resume" class="drop-area" id="dropArea">
+                <span id="fileLabel">Click to choose a PDF or DOCX file, or drag it here</span>
+                <input type="file" name="resume" id="resume" accept=".pdf,.docx" required>
+            </label>
+            <button type="submit" class="btn-primary">Analyze Resume</button>
+        </form>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
